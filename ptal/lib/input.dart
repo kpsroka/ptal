@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ChatState extends State<ChatInput> {
+class InputState extends State<ChatInput> {
   final TextEditingController _chatController = new TextEditingController();
 
   @override
@@ -33,5 +33,5 @@ class ChatState extends State<ChatInput> {
 
 class ChatInput extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => ChatState();
+  State<StatefulWidget> createState() => InputState();
 }
