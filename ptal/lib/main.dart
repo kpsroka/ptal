@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'input.dart';
 
 void main() {
   runApp(new FriendlychatApp());
@@ -19,6 +20,7 @@ class ChatScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(title: new Text("Friendlychat")),
+      body: new ChatInput(),
     );
   }
 }
