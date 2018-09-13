@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ptal/stores/github_store.dart';
+import 'package:flutter_flux/flutter_flux.dart';
 
 void main() => runApp(new MyApp());
 
@@ -23,40 +25,46 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MyHomePageState extends State<MyHomePage>
+    with StoreWatcherMixin<MyHomePage> {
+  final usernameInputController = TextEditingController();
+  final passwordInputController = TextEditingController();
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  @override
+    void initState() {
+      super.initState();
+      listenToStore(githubStoreToken);
+    }
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
       ),
-      body: new Center(
-        child: new Column(
+      body: Container(
+        margin: EdgeInsets.symmetric(horizontal: 40.0),
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            new Text(
-              'You have pushed the button this many times:',
-              style: Theme.of(context).textTheme.title,
-            ),
-            new Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display4,
-            ),
+            TextField(
+                controller: usernameInputController,
+                decoration: InputDecoration.collapsed(hintText: 'Username')),
+            TextField(
+                controller: passwordInputController,
+                obscureText: true,
+                decoration: InputDecoration.collapsed(hintText: 'Token')),
+            RaisedButton(
+                child: Text('Log in'),
+                onPressed: () {
+                  print('yes please');
+                  loginAction(LoginData(
+                      login: usernameInputController.text,
+                      password: passwordInputController.text,
+                      otp: ''));
+                }),
           ],
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: new Icon(Icons.add),
       ),
     );
   }
