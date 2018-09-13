@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class InputState extends State<ChatInput> {
+  final void Function(String) onMessageSent;
   final TextEditingController _chatController = new TextEditingController();
+
+  InputState({@required this.onMessageSent});
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,7 @@ class InputState extends State<ChatInput> {
                 onPressed: _chatController.text.length > 0
                     ? () {
                         print('pressed: ' + _chatController.text);
+                        onMessageSent(_chatController.text);
                         _chatController.clear();
                       }
                     : null,
@@ -32,6 +36,10 @@ class InputState extends State<ChatInput> {
 }
 
 class ChatInput extends StatefulWidget {
+  final void Function(String) onMessageSent;
+
+  ChatInput({@required this.onMessageSent});
+
   @override
-  State<StatefulWidget> createState() => InputState();
+  State<StatefulWidget> createState() => InputState(onMessageSent: onMessageSent);
 }
