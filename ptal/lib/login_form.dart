@@ -37,8 +37,8 @@ class LoginFormState extends State<LoginForm>
             onPressed: () {
               print('yes please');
               loginAction(LoginData(
-                  login: widget.usernameInputController.text,
-                  password: widget.passwordInputController.text,
+                  login: usernameInputController.text,
+                  password: passwordInputController.text,
                   otp: ''));
             }),
       ],
