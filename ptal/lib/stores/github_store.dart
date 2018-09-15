@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:http/http.dart' as http;
-import 'package:ptal/stores/notification.dart';
+import 'package:ptal/api/model/notification.dart';
 
 class LoginData {
   final String login;
