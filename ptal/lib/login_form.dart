@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:ptal/stores/github_store.dart';
@@ -15,15 +16,25 @@ class LoginFormState extends State<LoginForm>
   final passwordInputController = TextEditingController();
 
   GithubStore githubStore;
+  NavigatorState navigator;
 
   @override
   void initState() {
     super.initState();
-    githubStore = listenToStore(githubStoreToken);
+    githubStore = listenToStore(githubStoreToken, (store) {
+      if (navigator != null &&
+          (githubStore?.notifications?.isNotEmpty ?? false)) {
+        navigator.pushNamed('/notifications');
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (navigator == null) {
+      navigator = Navigator.of(context);
+    }
+
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 60.0),
       child: Column(

@@ -32,6 +32,7 @@ class GithubStore extends Store {
     }
 
     _loading = true;
+    _notifications.clear();
     trigger();
 
     try {
@@ -47,11 +48,9 @@ class GithubStore extends Store {
         final List<dynamic> notifications = json.decode(response.body);
         for (Map<String, dynamic> notificationJson in notifications) {
           final notification = Notification.fromJson(notificationJson);
-          print('Notification ' +
-              notification.id +
-              ': ' +
-              notification.subject.title);
+          _notifications.add(notification);
         }
+        print('Loaded ' + _notifications.length.toString() + ' notifications');
       }
     } finally {
       _loading = false;
