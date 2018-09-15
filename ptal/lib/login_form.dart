@@ -24,29 +24,48 @@ class LoginFormState extends State<LoginForm>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        TextField(
-            enabled: githubStore?.loading != true,
-            controller: usernameInputController,
-            decoration: InputDecoration.collapsed(hintText: 'Username')),
-        TextField(
-            enabled: githubStore?.loading != true,
-            controller: passwordInputController,
-            obscureText: true,
-            decoration: InputDecoration.collapsed(hintText: 'Token')),
-        RaisedButton(
-            child: Text('Log in'),
-            onPressed: githubStore?.loading == true
-                ? null
-                : () {
-                    loginAction(LoginData(
-                        login: usernameInputController.text,
-                        password: passwordInputController.text,
-                        otp: ''));
-                  }),
-      ],
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 60.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(bottom: 4.0),
+            child: TextField(
+                enabled: githubStore?.loading != true,
+                controller: usernameInputController,
+                decoration: InputDecoration.collapsed(hintText: 'Username')),
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 4.0),
+            child: TextField(
+                enabled: githubStore?.loading != true,
+                controller: passwordInputController,
+                obscureText: true,
+                decoration: InputDecoration.collapsed(hintText: 'Token')),
+          ),
+          RaisedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Log in to'),
+                  SizedBox(
+                      width: Theme.of(context).textTheme.button.fontSize / 4),
+                  Image.asset('assets/GitHub_Logo.png',
+                      height: Theme.of(context).textTheme.button.fontSize),
+                ],
+              ),
+              onPressed: githubStore?.loading == true
+                  ? null
+                  : () {
+                      loginAction(LoginData(
+                          login: usernameInputController.text,
+                          password: passwordInputController.text,
+                          otp: ''));
+                    }),
+        ],
+      ),
     );
   }
 }
