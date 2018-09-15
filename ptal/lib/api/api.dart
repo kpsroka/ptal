@@ -18,14 +18,29 @@ class GitHubApi {
     final String basicAuth = 'Basic ' +
         base64Encode(utf8.encode(loginData.login + ':' + loginData.password));
 
-    http.Response response =
-        await http.get("$baseUrl/notifications", headers: {
+    http.Response response = await http.get("$baseUrl/notifications", headers: {
       'authorization': basicAuth,
     });
 
     if (response.statusCode == 200) {
       return Future.value(List.from(
           List.from(json.decode(response.body)).map(_notificationFromJson)));
+    } else {
+      throw Exception(response.reasonPhrase);
+    }
+  }
+
+  Future<Null> markThreadAsRead(LoginData loginData, int threadId) async {
+    final String basicAuth = 'Basic ' +
+        base64Encode(utf8.encode(loginData.login + ':' + loginData.password));
+
+    http.Response response =
+        await http.patch("$baseUrl/notifications/threads/$threadId", headers: {
+      'authorization': basicAuth,
+    });
+
+    if (response.statusCode == 205) {
+      return Future.value(null);
     } else {
       throw Exception(response.reasonPhrase);
     }
