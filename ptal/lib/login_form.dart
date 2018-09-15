@@ -14,10 +14,12 @@ class LoginFormState extends State<LoginForm>
   final usernameInputController = TextEditingController();
   final passwordInputController = TextEditingController();
 
+  GithubStore githubStore;
+
   @override
   void initState() {
     super.initState();
-    listenToStore(githubStoreToken);
+    githubStore = listenToStore(githubStoreToken);
   }
 
   @override
@@ -26,21 +28,24 @@ class LoginFormState extends State<LoginForm>
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         TextField(
+            enabled: githubStore?.loading != true,
             controller: usernameInputController,
             decoration: InputDecoration.collapsed(hintText: 'Username')),
         TextField(
+            enabled: githubStore?.loading != true,
             controller: passwordInputController,
             obscureText: true,
             decoration: InputDecoration.collapsed(hintText: 'Token')),
         RaisedButton(
             child: Text('Log in'),
-            onPressed: () {
-              print('yes please');
-              loginAction(LoginData(
-                  login: usernameInputController.text,
-                  password: passwordInputController.text,
-                  otp: ''));
-            }),
+            onPressed: githubStore?.loading == true
+                ? null
+                : () {
+                    loginAction(LoginData(
+                        login: usernameInputController.text,
+                        password: passwordInputController.text,
+                        otp: ''));
+                  }),
       ],
     );
   }

@@ -32,6 +32,7 @@ class GithubStore extends Store {
     }
 
     _loading = true;
+    trigger();
 
     try {
       final String basicAuth = 'Basic ' +
@@ -46,7 +47,10 @@ class GithubStore extends Store {
         final List<dynamic> notifications = json.decode(response.body);
         for (Map<String, dynamic> notificationJson in notifications) {
           final notification = Notification.fromJson(notificationJson);
-          print('Notification ' + notification.id + ': ' + notification.subject.title);
+          print('Notification ' +
+              notification.id +
+              ': ' +
+              notification.subject.title);
         }
       }
     } finally {
