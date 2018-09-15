@@ -1,13 +1,15 @@
-import 'dart:convert';
 import 'package:flutter_flux/flutter_flux.dart';
-import 'package:http/http.dart' as http;
+import 'package:ptal/api/api.dart';
 import 'package:ptal/api/login_data.dart';
 import 'package:ptal/api/model/notification.dart';
 
 final Action<LoginData> loginAction = new Action<LoginData>();
 
+
 class GithubStore extends Store {
   final List<Notification> _notifications = <Notification>[];
+  final GitHubApi gitHubApi = new GitHubApi();
+  
   List<Notification> get notifications =>
       new List<Notification>.unmodifiable(_notifications);
 
@@ -30,22 +32,9 @@ class GithubStore extends Store {
     trigger();
 
     try {
-      final String basicAuth = 'Basic ' +
-          base64Encode(utf8.encode(loginData.login + ':' + loginData.password));
-
-      http.Response response =
-          await http.get('https://api.github.com/notifications', headers: {
-        'authorization': basicAuth,
-      });
-
-      if (response.statusCode == 200) {
-        final List<dynamic> notifications = json.decode(response.body);
-        for (Map<String, dynamic> notificationJson in notifications) {
-          final notification = Notification.fromJson(notificationJson);
-          _notifications.add(notification);
-        }
-        print('Loaded ' + _notifications.length.toString() + ' notifications');
-      }
+      _notifications.addAll(await gitHubApi.fetchNotifications(loginData));
+    } catch (e) {
+      print("Exception in GitHubClient: ${e.toString()}");
     } finally {
       _loading = false;
     }
