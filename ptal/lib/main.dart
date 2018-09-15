@@ -28,7 +28,6 @@ class Root extends StatelessWidget {
         title: Text(title),
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 40.0),
         child: LoginForm(),
       ),
     );
