@@ -1,14 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_flux/flutter_flux.dart';
 import 'package:http/http.dart' as http;
+import 'package:ptal/api/login_data.dart';
 import 'package:ptal/api/model/notification.dart';
-
-class LoginData {
-  final String login;
-  final String password;
-  final String otp;
-  LoginData({this.login, this.password, this.otp});
-}
 
 final Action<LoginData> loginAction = new Action<LoginData>();
 

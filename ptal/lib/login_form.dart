@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flux/flutter_flux.dart';
+import 'package:ptal/api/login_data.dart';
 import 'package:ptal/stores/github_store.dart';
 
 class LoginForm extends StatefulWidget {
