@@ -9,7 +9,7 @@ class NotificationList extends StatefulWidget {
 
 class NotificationListState extends State<NotificationList>
     with StoreWatcherMixin<NotificationList> {
-  GithubStore githubStore;
+  GitHubStore githubStore;
 
   @override
   void initState() {
@@ -21,12 +21,21 @@ class NotificationListState extends State<NotificationList>
   Widget build(BuildContext context) {
     return ListView.builder(
         itemCount: githubStore?.notifications?.length ?? 0,
-        itemBuilder: (context, index) => ListTile(
-            key: Key(githubStore.notifications[index].id),
-            title: Text(
-              githubStore.notifications[index].subject.title,
+        itemBuilder: (context, index) {
+          final item = githubStore.notifications[index];
+          return Dismissible(
+            key: Key(item.id),
+            direction: DismissDirection.startToEnd,
+            onDismissed: (_) {
+              removeAction(item.id);
+            },
+            child: ListTile(
+                title: Text(
+              item.subject.title,
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
-            )));
+            )),
+          );
+        });
   }
 }

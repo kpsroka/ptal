@@ -15,7 +15,7 @@ class LoginFormState extends State<LoginForm>
   final usernameInputController = TextEditingController();
   final passwordInputController = TextEditingController();
 
-  GithubStore githubStore;
+  GitHubStore githubStore;
   NavigatorState navigator;
 
   @override

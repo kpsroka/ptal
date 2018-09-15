@@ -8,6 +8,8 @@ class GitHubApi {
   static final baseUrl = 'https://api.github.com';
   static final GitHubApi _instance = new GitHubApi._create();
 
+  LoginData _loginData;
+
   factory GitHubApi() {
     return _instance;
   }
@@ -23,6 +25,7 @@ class GitHubApi {
     });
 
     if (response.statusCode == 200) {
+      this._loginData = loginData;
       return Future.value(List.from(
           List.from(json.decode(response.body)).map(_notificationFromJson)));
     } else {
@@ -30,9 +33,9 @@ class GitHubApi {
     }
   }
 
-  Future<Null> markThreadAsRead(LoginData loginData, int threadId) async {
+  Future<Null> markThreadAsRead(String threadId) async {
     final String basicAuth = 'Basic ' +
-        base64Encode(utf8.encode(loginData.login + ':' + loginData.password));
+        base64Encode(utf8.encode(_loginData.login + ':' + _loginData.password));
 
     http.Response response =
         await http.patch("$baseUrl/notifications/threads/$threadId", headers: {

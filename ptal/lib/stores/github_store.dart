@@ -4,21 +4,22 @@ import 'package:ptal/api/login_data.dart';
 import 'package:ptal/api/model/notification.dart';
 
 final Action<LoginData> loginAction = new Action<LoginData>();
+final Action<String> removeAction = new Action<String>();
 
-
-class GithubStore extends Store {
+class GitHubStore extends Store {
   final List<Notification> _notifications = <Notification>[];
   final GitHubApi gitHubApi = new GitHubApi();
-  
+
   List<Notification> get notifications =>
       new List<Notification>.unmodifiable(_notifications);
 
   bool _loading = false;
   bool get loading => _loading;
 
-  GithubStore() {
+  GitHubStore() {
     print('GithubStore()');
     triggerOnAction(loginAction, _handleLoginAction);
+    triggerOnAction(removeAction, _handleRemoveAction);
   }
 
   void _handleLoginAction(LoginData loginData) async {
@@ -39,6 +40,17 @@ class GithubStore extends Store {
       _loading = false;
     }
   }
+
+  void _handleRemoveAction(String threadId) async {
+    print('_handleRemoveAction');
+
+    try {
+      await gitHubApi.markThreadAsRead(threadId);
+      _notifications.removeWhere((n) => n.id == threadId);
+    } catch (e) {
+      print("Exception in GitHubClient: ${e.toString()}");
+    }
+  }
 }
 
-StoreToken githubStoreToken = StoreToken(new GithubStore());
+StoreToken githubStoreToken = StoreToken(new GitHubStore());
