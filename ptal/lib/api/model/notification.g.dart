@@ -26,7 +26,9 @@ NotificationSubject _$NotificationSubjectFromJson(Map<String, dynamic> json) {
   return NotificationSubject(
       title: json['title'] as String,
       url: json['url'] as String,
-      type: json['type'] as String);
+      type: _$enumDecodeNullable(
+              _$NotificationSubjectTypeEnumMap, json['type']) ??
+          NotificationSubjectType.Unknown);
 }
 
 Map<String, dynamic> _$NotificationSubjectToJson(
@@ -34,8 +36,37 @@ Map<String, dynamic> _$NotificationSubjectToJson(
     <String, dynamic>{
       'title': instance.title,
       'url': instance.url,
-      'type': instance.type
+      'type': _$NotificationSubjectTypeEnumMap[instance.type]
     };
+
+T _$enumDecode<T>(Map<T, dynamic> enumValues, dynamic source) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return enumValues.entries
+      .singleWhere((e) => e.value == source,
+          orElse: () => throw ArgumentError(
+              '`$source` is not one of the supported values: '
+              '${enumValues.values.join(', ')}'))
+      .key;
+}
+
+T _$enumDecodeNullable<T>(Map<T, dynamic> enumValues, dynamic source) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source);
+}
+
+const _$NotificationSubjectTypeEnumMap = <NotificationSubjectType, dynamic>{
+  NotificationSubjectType.Commit: 'Commit',
+  NotificationSubjectType.Issue: 'Issue',
+  NotificationSubjectType.PullRequest: 'PullRequest',
+  NotificationSubjectType.Release: 'Release',
+  NotificationSubjectType.RepositoryInvitation: 'RepositoryInvitation',
+  NotificationSubjectType.Unknown: 'Unknown'
+};
 
 Notification _$NotificationFromJson(Map<String, dynamic> json) {
   return Notification(

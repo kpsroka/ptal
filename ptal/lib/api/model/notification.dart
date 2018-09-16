@@ -18,11 +18,21 @@ class Repository {
       _$RepositoryFromJson(json);
 }
 
+enum NotificationSubjectType {
+  Commit,
+  Issue,
+  PullRequest,
+  Release,
+  RepositoryInvitation,
+  Unknown,
+}
+
 @JsonSerializable()
 class NotificationSubject {
   final String title;
   final String url;
-  final String type;
+  @JsonKey(defaultValue: NotificationSubjectType.Unknown)
+  final NotificationSubjectType type;
   NotificationSubject({this.title, this.url, this.type});
 
   factory NotificationSubject.fromJson(Map<String, dynamic> json) =>
