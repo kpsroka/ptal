@@ -1,5 +1,5 @@
-name: ptal
-description: A new Flutter project.
+name: PTAL
+description: Please Take A Look
 
 dependencies:
   flutter:
@@ -36,7 +36,7 @@ flutter:
   #  - images/a_dot_ham.jpeg
 
   assets:
-    - assets/GitHub_Logo.png
+    - assets
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
