@@ -16,25 +16,23 @@ class LoginFormState extends State<LoginForm>
   final passwordInputController = TextEditingController();
 
   GitHubStore githubStore;
-  NavigatorState navigator;
+
+  var _loggedIn = false;
 
   @override
   void initState() {
     super.initState();
     githubStore = listenToStore(githubStoreToken, (store) {
-      if (navigator != null &&
-          (githubStore?.notifications?.isNotEmpty ?? false)) {
-        navigator.pushNamed('/notifications');
+      var nextLoggedIn = githubStore?.notifications?.isNotEmpty ?? false;
+      if (_loggedIn == false && nextLoggedIn == true) {
+        Navigator.of(context).pushNamed('/notifications');
       }
+      _loggedIn = nextLoggedIn;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (navigator == null) {
-      navigator = Navigator.of(context);
-    }
-
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 60.0),
       child: Column(
