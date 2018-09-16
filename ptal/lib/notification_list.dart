@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flux/flutter_flux.dart';
+import 'package:ptal/notification_list_tile.dart';
 import 'package:ptal/stores/github_store.dart';
 
 class NotificationList extends StatefulWidget {
@@ -29,12 +30,7 @@ class NotificationListState extends State<NotificationList>
             onDismissed: (_) {
               removeAction(item.id);
             },
-            child: ListTile(
-                title: Text(
-              item.subject.title,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            )),
+            child: new NotificationListTile(item: item),
           );
         });
   }
