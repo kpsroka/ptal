@@ -24,13 +24,18 @@ class NotificationListState extends State<NotificationList>
         itemCount: githubStore?.notifications?.length ?? 0,
         itemBuilder: (context, index) {
           final item = githubStore.notifications[index];
-          return Dismissible(
-            key: Key(item.id),
-            direction: DismissDirection.startToEnd,
-            onDismissed: (_) {
-              removeAction(item.id);
-            },
-            child: new NotificationListTile(item: item),
+          return Column(
+            children: <Widget>[
+              Dismissible(
+                key: Key(item.id),
+                direction: DismissDirection.startToEnd,
+                onDismissed: (_) {
+                  removeAction(item.id);
+                },
+                child: new NotificationListTile(item: item),
+              ),
+              Divider(height: 0.0),
+            ],
           );
         });
   }
