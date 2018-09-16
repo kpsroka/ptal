@@ -18,6 +18,19 @@ class Repository {
       _$RepositoryFromJson(json);
 }
 
+enum NotificationReason {
+  @JsonValue('assign') AssignedToIssue,
+  @JsonValue('author') CreatedThread,
+  @JsonValue('comment') CommentedOnThread,
+  @JsonValue('invitation') AcceptedRepositoryInvitation,
+  @JsonValue('manual') SubscribedManually,
+  @JsonValue('mention') Mentioned,
+  @JsonValue('review_requested') ReviewRequested,
+  @JsonValue('state_change') ChangedThreadState,
+  @JsonValue('subscribed') WatchingRepository,
+  @JsonValue('team_mention') OnMentionedTeam
+}
+
 enum NotificationSubjectType {
   Commit,
   Issue,
@@ -43,10 +56,13 @@ class NotificationSubject {
 class Notification {
   final String id;
   final Repository repository;
+  @JsonKey(nullable: true)
+  final NotificationReason reason;
   final NotificationSubject subject;
   final bool unread;
-  Notification(
+  Notification( 
       {@required this.id,
+      this.reason,
       @required this.repository,
       @required this.subject,
       @required this.unread});

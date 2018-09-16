@@ -71,6 +71,7 @@ const _$NotificationSubjectTypeEnumMap = <NotificationSubjectType, dynamic>{
 Notification _$NotificationFromJson(Map<String, dynamic> json) {
   return Notification(
       id: json['id'] as String,
+      reason: _$enumDecodeNullable(_$NotificationReasonEnumMap, json['reason']),
       repository: json['repository'] == null
           ? null
           : Repository.fromJson(json['repository'] as Map<String, dynamic>),
@@ -85,6 +86,20 @@ Map<String, dynamic> _$NotificationToJson(Notification instance) =>
     <String, dynamic>{
       'id': instance.id,
       'repository': instance.repository,
+      'reason': _$NotificationReasonEnumMap[instance.reason],
       'subject': instance.subject,
       'unread': instance.unread
     };
+
+const _$NotificationReasonEnumMap = <NotificationReason, dynamic>{
+  NotificationReason.AssignedToIssue: 'assign',
+  NotificationReason.CreatedThread: 'author',
+  NotificationReason.CommentedOnThread: 'comment',
+  NotificationReason.AcceptedRepositoryInvitation: 'invitation',
+  NotificationReason.SubscribedManually: 'manual',
+  NotificationReason.Mentioned: 'mention',
+  NotificationReason.ReviewRequested: 'review_requested',
+  NotificationReason.ChangedThreadState: 'state_change',
+  NotificationReason.WatchingRepository: 'subscribed',
+  NotificationReason.OnMentionedTeam: 'team_mention'
+};
