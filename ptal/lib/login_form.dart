@@ -28,6 +28,7 @@ class LoginFormState extends State<LoginForm>
         Navigator.of(context).pushNamed('/notifications');
       }
       _loggedIn = nextLoggedIn;
+      this.setState(() {});
     });
   }
 
